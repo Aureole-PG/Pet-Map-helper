@@ -4,11 +4,13 @@
 .header {
   height: 40vh;
   overflow: hidden;
+  position: relative;
 }
 .body {
   height: 60vh;
+  z-index: 0;
 }
-.heigth-100 {
+.height-100 {
   height: 100%;
 }
 .scroll {
@@ -20,4 +22,32 @@
 }
 .no-padding {
   padding: 0;
+}
+.fixed-actions {
+  width: 100vw;
+  position: absolute;
+  top: -100px;
+  z-index: 1;
+}
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.align-center {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+.grid {
+  display: grid;
+}
+.title {
+  font-size: 2rem;
+  letter-spacing: 0.1rem;
+}
+.subtitle {
+  font-size: 0.8rem;
+  letter-spacing: 0.1rem;
+  margin: 0 10px;
 }
