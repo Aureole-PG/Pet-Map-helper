@@ -1,17 +1,22 @@
 import React, { useRef, useState, useEffect } from "react";
 import M from "materialize-css";
-export const Header = ({ send, getId, selectedPet, petsData = [] }) => {
+export const Header = ({
+  send,
+  petData,
+  selectedPet,
+  petsData = [],
+  disabled,
+}) => {
   const [modalInstance, setModalInstance] = useState(null);
   const modal = useRef(null);
 
-  const selectPet = (id) => {
-    getId(id);
+  const selectPet = (pet) => {
+    petData(pet);
     modalInstance.close();
   };
 
   useEffect(() => {
     setModalInstance(M.Modal.init(modal.current));
-    console.log(selectedPet);
   }, []);
 
   return (
@@ -28,16 +33,17 @@ export const Header = ({ send, getId, selectedPet, petsData = [] }) => {
               style={{ margin: "5px 0 " }}
             >
               {" "}
-              Seleccionar Mascota
+              select pet
             </button>
 
             {selectedPet && (
               <button
-                onClick={() => modalInstance.open()}
+                onClick={() => send()}
                 className="btn waves-effect"
+                disabled={!disabled}
               >
                 {" "}
-                Guardar
+                Save
               </button>
             )}
           </div>
@@ -65,8 +71,8 @@ export const Header = ({ send, getId, selectedPet, petsData = [] }) => {
                   <td>{e.email}</td>
                   <td>
                     <button
-                      onClick={() => selectPet(e.gps_id)}
-                      className="btn-large waves-effect"
+                      onClick={() => selectPet(e)}
+                      className="btn waves-effect"
                     >
                       Select
                     </button>

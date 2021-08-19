@@ -5,30 +5,33 @@ import {Header} from './sections/Header'
 import './styles/myStyles.css'
 function App() {
   const marker = useRef(null);
-  const [position, setPosition] =useState({ lat: 0, lng: 0 })
-  const [data, setData] = useState({gps_id: "144s5dwewqwe", latitud:"", longitud:""})
+  const [data, setData] = useState({name:"", owner: "", email:"", gps_id: "", latitud:"", longitud:""})
   const [selectedPet, setSelectedPet] = useState(false);
   const[petsData, setPetsData] = useState([])
+  const [enableButton, setEnableButton] = useState(false)
   const getPosition=(e)=>{
-    console.log(typeof e.latLng.lat())
-    setPosition({ lat: e.latLng.lat(), lng: e.latLng.lng()})
+    setEnableButton(true)
     setData({
       ...data,
       latitud: `${e.latLng.lat()}`,
       longitud:`${e.latLng.lng()}`
     })
   }
-  const getId = (id)=>{
+  const getId = (data)=>{
+    setEnableButton(false)
     setData({
-      gps_id: id,
+      gps_id: data.gps_id,
+      name: data.name,
+      owner: data.owner,
       ...data
     })
     setSelectedPet(true)
-    console.log(id)
+    console.log(data)
   }
 
   const send = () =>{
-    Api.get(`/gps/get/${data.gps_id}/${data.latitud}/${data.longitud}`).then(()=>{
+    const {name, owner, _id, email, ...rest} = data
+    Api.post(`/gps`, rest).then(()=>{
       alert("datos guardados")
     }).catch(()=>{
       alert("error")
@@ -38,23 +41,22 @@ function App() {
     Api.get('/petInfo').then(e=>{
       
       const {petInfo} = e.data
-      console.log(petInfo)
       setPetsData(petInfo)
     }) 
   },[])
 
   
   return (
-    <div className="App max-Heigth">
+    <div className="App max-Heigth indigo lighten-5">
       <div className="row no-margin header">
         <div className="col s12 no-padding">
-          <Header position={position} getId={getId} selectedPet={selectedPet} petsData={petsData}/>
+          <Header petData={getId} disabled={enableButton} send={send} selectedPet={selectedPet} petsData={petsData}/>
         </div>
         
       </div>
       <div className="row no-margin body">
         <div className="col s12 no-padding">
-          <Map marker={marker} getPosition={getPosition} position={position}/>
+          <Map marker={marker} getPosition={getPosition}  data={data}/>
         </div>
       </div>
     </div>

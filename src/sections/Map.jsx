@@ -5,7 +5,6 @@ import {
   withGoogleMap,
   withScriptjs,
 } from "react-google-maps";
-import PropTypes from "prop-types";
 const MyMapComponent = withScriptjs(
   withGoogleMap((props) => (
     <GoogleMap
@@ -18,38 +17,40 @@ const MyMapComponent = withScriptjs(
   ))
 );
 
-const Map = ({ marker, position, getPosition }) => {
+const Map = ({ marker, data, getPosition }) => {
   return (
     <div style={{ position: "relative" }}>
       <div className="fixed-actions">
         <div className="container">
-          <div class="card-panel hoverable">
+          <div className="card-panel hoverable">
             <div className="row no-margin height-100">
               <div className="col s6 m6 l4 height-100">
                 <div className="height-100 align-center">
                   <div>
                     <h6>Name: </h6>
                     <p className="title" style={{ margin: "0 10px" }}>
-                      Name
+                      {data.name}
                     </p>
+                    <label>{data.gps_id}</label>
                   </div>
                 </div>
               </div>
               <div className="col s6 m6 l4">
                 <h6>Owner </h6>
                 <p className="title" style={{ margin: "0 10px" }}>
-                  Name
+                  {data.owner}
                 </p>
+                <label>{data.email}</label>
               </div>
               <div className="col s12 m6 l4 hide-on-med-and-down">
                 <h6>position </h6>
                 <div className="align-center">
                   <p className="subtitle">lat: </p>
-                  <div class="chip no-margin">{position.lat}</div>
+                  <div className="chip no-margin">{data.latitud}</div>
                 </div>
                 <div className="align-center">
                   <p className="subtitle">lng: </p>
-                  <div class="chip no-margin">{position.lng}</div>
+                  <div className="chip no-margin">{data.longitud}</div>
                 </div>
               </div>
             </div>
@@ -65,20 +66,11 @@ const Map = ({ marker, position, getPosition }) => {
       >
         <Marker
           ref={marker}
-          position={{ lat: position.lat, lng: position.lng }}
+          position={{ lat: Number(data.latitud), lng: Number(data.longitud) }}
         />
       </MyMapComponent>
     </div>
   );
-};
-
-// eslint-disable-next-line react/no-typos
-Map.PropTypes = {
-  marker: PropTypes.any.isRequired,
-  position: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
-  }),
 };
 
 export { Map };
