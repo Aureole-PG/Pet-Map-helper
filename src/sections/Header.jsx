@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import M from "materialize-css";
-export const Header = ({ position, send, getId, selectedPet }) => {
+export const Header = ({ send, getId, selectedPet, petsData = [] }) => {
   const [modalInstance, setModalInstance] = useState(null);
   const modal = useRef(null);
 
@@ -50,25 +50,29 @@ export const Header = ({ position, send, getId, selectedPet }) => {
           <table>
             <thead>
               <tr>
-                <th>Name</th>
+                <th>pet name</th>
                 <th>Owner</th>
+                <th>Email</th>
                 <th></th>
               </tr>
             </thead>
 
             <tbody>
-              <tr>
-                <td>Alvin</td>
-                <td>Eclair</td>
-                <td>
-                  <button
-                    onClick={() => selectPet(123)}
-                    className="btn-large waves-effect"
-                  >
-                    Select
-                  </button>
-                </td>
-              </tr>
+              {petsData.map((e) => (
+                <tr key={e._id}>
+                  <td>{e.name}</td>
+                  <td>{e.owner}</td>
+                  <td>{e.email}</td>
+                  <td>
+                    <button
+                      onClick={() => selectPet(e.gps_id)}
+                      className="btn-large waves-effect"
+                    >
+                      Select
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

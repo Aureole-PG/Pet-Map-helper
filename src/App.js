@@ -8,6 +8,7 @@ function App() {
   const [position, setPosition] =useState({ lat: 0, lng: 0 })
   const [data, setData] = useState({gps_id: "144s5dwewqwe", latitud:"", longitud:""})
   const [selectedPet, setSelectedPet] = useState(false);
+  const[petsData, setPetsData] = useState([])
   const getPosition=(e)=>{
     console.log(typeof e.latLng.lat())
     setPosition({ lat: e.latLng.lat(), lng: e.latLng.lng()})
@@ -33,13 +34,21 @@ function App() {
       alert("error")
     })
   }
+  useEffect(()=>{
+    Api.get('/petInfo').then(e=>{
+      
+      const {petInfo} = e.data
+      console.log(petInfo)
+      setPetsData(petInfo)
+    }) 
+  },[])
 
   
   return (
     <div className="App max-Heigth">
       <div className="row no-margin header">
         <div className="col s12 no-padding">
-          <Header position={position} getId={getId} selectedPet={selectedPet} />
+          <Header position={position} getId={getId} selectedPet={selectedPet} petsData={petsData}/>
         </div>
         
       </div>
