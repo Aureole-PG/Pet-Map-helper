@@ -5,7 +5,7 @@ import {Header} from './sections/Header'
 import './styles/myStyles.css'
 function App() {
   const marker = useRef(null);
-  const [data, setData] = useState({name:"", owner: "", email:"", gps_id: "", latitud:"", longitud:""})
+  const [data, setData] = useState({name:"", owner: "", email:"", gps_id: "", latitud:"", longitud:"", owner_id:"" })
   const [selectedPet, setSelectedPet] = useState(false);
   const[petsData, setPetsData] = useState([])
   const [enableButton, setEnableButton] = useState(false)
@@ -30,11 +30,11 @@ function App() {
   }
 
   const send = () =>{
-    const {name, owner, _id, email, ...rest} = data
+    const {name, owner, email, ...rest} = data
     Api.post(`/gps`, rest).then(()=>{
-      alert("datos guardados")
+      // alert("datos guardados")
     }).catch(()=>{
-      alert("error")
+      // alert("error")
     })
   }
   useEffect(()=>{
